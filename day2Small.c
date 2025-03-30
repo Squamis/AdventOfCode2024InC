@@ -7,10 +7,13 @@
 #include <ctype.h> // you need this if you are going to use isdigit
 #include <stdlib.h>
 
+#define LINE_LENGTH 256
+#define MAX_LINES 1000 //will use this for the NASA standards 
 
 int Test_Line(char *line); // using 0 for false and any non zero return for true
 //
 int StringToInt( char *line, int Length); //you need to fix all occurances of Length and move them to lowercase length
+int FirstTwoStringsToInts(char *line,  int Length);
 
 int IsIntIncreacing( int *numbers, int length);
 
@@ -18,62 +21,56 @@ int IsIntDecreacing( int *numbers, int length);
 
 int IsIntGradually(int *numbers, int length, int min, int max);
 
-int getTwo
-
-
-
-
 char * GetString(char * line, int length);
 
 
 
 
-int IsIntGradually(int *numbers, int length, int min, int max){
-	//this checks if an array of ints is either increasing or decreasing in a gaudual manner in which the change must be at least min change between values at consetive indexs, and at most the max change.
-	
-	//should check to see if the inputs are all safe. is the list at least two values, all that jazz
+int FirstTwoStringsToInts(char *line,  int length){
+	//this function takes in a string and returns the first two int values as an array 
+	//example "135 236" would return 135 and 236 as an array as an int value
+    //this will need to be passed an array of two chars to compare, that will be the single memory location that gets reused
 	//
-	for( int i = 1 ; i < length  ; i++){
+	//you still need to go in and do error handling
 
-		if(abs(numbers[i-1] - numbers[i]) < min){
-			return 0; //change in values was too small
-		}
-		else if(abs(numbers[i-1] - numbers[i]) > max){
-			return 0; //change in values was too big 
-		}
+	int singleValue, secondValue, indexOfSecondInt, secondSpace;
+	singleValue = secondValue = indexOfSecondInt = secondSpace = 0;
 
+    //this loop get the first value
+	for(int i = 0 ; i < length; i++){
+		if(line[i] == '\n'){
+		    printf("this is th last value of the larger string/the only value in the string passed to the function %d",singleValue);
+            //secondValue = NULL;
+			break;
+		}
+		if(line[i] == ' '){
+		    indexOfSecondInt = i+1;
+		    printf("the value of the fist int is %d",singleValue);
+			break;
+            }
+		singleValue = singleValue*10;
+		singleValue += line[i]-'0'; //remember that the char of a value is an ASCII value
 
 	}
+	for( int j = indexOfSecondInt ; j < length; j++){
+		if(line[j] == '\n'){
+			printf("second value: %d",secondValue);
+			//secondValue = NULL;
+			break;
+		}
+		if(line[j] == ' '){
+			printf("the second value of the fist int is %d",secondValue);
+			break;
+		}
 
-	return 1;
-}
-
-int IsIntDecreacing( int *numbers, int length){
-	for( int i = 0 ; i < length  ; i++){
-
+		secondValue = secondValue*10;
+		secondValue += line[j]-'0'; //remember that the char of a value is an ASCII value
 	}
+	//printf("single value from within StringToInt %d",singleValue);
 
-	
-{
-
-
-#define LINE_LENGTH 256
-#define MAX_LINES 1000 //will use this for the NASA standards 
-
-int Test_Line(char *line){
-	//printf("hello from Test_Line\n");
-	char lastChar;
-	lastChar = ' ';
-	int current_value, last_value, first_value_found; //these are going to keep the value of 
-	current_value = last_value  = first_value_found = 0; //first value found is how I am dealing with comparing to a 0 value; 
-
-	 
-	printf("%s",line);
-
-	//
-	return 1;
-
+	return singleValue;
 }
+
 
 int StringToInt( char *line, int length){
 	//this function takes in a string and returns the Int value of that string
@@ -135,7 +132,7 @@ char * GetStrings(char * line, int length){
 
 		else if (line[i] == ' '){
 			//currentNumbers[currentNumbersIndex] = StringToInt(line[i - currentNumbersLenght], currentNumbersLength); //I need to pass part 
-			currentNumberTest = StringToInt(line[(i - currentNumbersLength)], currentNumbersLength); //I need to pass part 
+			//currentNumberTest = StringToInt(line[(i - currentNumbersLength)], currentNumbersLength); //I need to pass part 
 			printf("current number test: %d", currentNumberTest);
 
 			currentNumbersLength = 0;	
@@ -166,13 +163,17 @@ int main(){
 	}
 
 	int singleValueInMain;
+	int secondValueInMain;
 	singleValueInMain = 0;
+	secondValueInMain = 0;
+
 	//be able to convert a string value into a int	
 	fgets(line, LINE_LENGTH, fp);	
-	singleValueInMain = StringToInt(line, LINE_LENGTH);
-	printf("single value from within main %d",singleValueInMain);
+	FirstTwoStringsToInts(line, LINE_LENGTH);
+
+	//singleValueInMain = StringToInt(line, LINE_LENGTH);
+	//printf("single value from within main %d",singleValueInMain);
 	
-	GetString(line, LINE_LENGTH);
 
 
 
